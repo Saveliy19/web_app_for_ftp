@@ -1,0 +1,15 @@
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Создание автоматических столбцов */
+    grid-gap: 20px; /* Расстояние между элементами */
+    padding: 20px;
+}
+
+.grid-item {
+    text-align: center;
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Создать каталог</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<h3>Содержимое каталога {{'/'.join(path_list)}}</h3>
+    
+    
+
+    <div class="grid-container">
+        <div class="grid-item">
+            <form method="post">
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.catalog_name.label }}<br>
+                    {{ form.catalog_name }}<br>
+                    {% for error in form.catalog_name.errors %}
+                        <span style="color: red;">{{ error }}</span><br>
+                    {% endfor %}
+                </p>
+                <p>{{ form.submit() }}</p>
+            </form>
+        </div>
+        {% for item in directories %}
+            <div class="grid-item">
+                <a href="{{ url_for('ftp_connection', host=host, username=username, password=password, path='+'.join(path_list + [item])) }}"><img src="http://s1.iconbird.com/ico/2013/9/450/w256h2561380453900FolderClosed256x25632.png" alt="Перейти" width="30" height="30"></a>
+                <p>{{ item }}</p>
+            </div>
+        {% endfor %}
+        {% for i in files %}
+            <div class="grid-item">
+                <a href="{{ url_for('download', host=host, username=username, password=password, path='+'.join(path_list), target_file=i) }}"><img src="https://cdn.icon-icons.com/icons2/1129/PNG/512/fileinterfacesymboloftextpapersheet_79740.png" alt="Перейти" width="30" height="30"></a>
+                <p>{{ i }}</p>
+            </div>
+        {% endfor %}
+        
+        
+    </div>
+    
+</body>
+</html>

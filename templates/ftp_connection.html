@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Содержимое каталога</title>
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+   
+</head>
+<body>
+    <h3>Содержимое каталога {{'/'.join(path_list)}}</h3>
+    
+    <div class="grid-container">
+        {% if path_list==['start'] %}
+        <div class="grid-item">
+            <form action="/task" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="host" value={{host}}>
+                <input type="hidden" name="username" value={{username}}>
+                <input type="hidden" name="password" value={{password}}>
+                <input type="hidden" name="path" value={{'+'.join(path_list)}}>
+                <input type="submit" value="Загрузить">
+            </form>
+        </div>
+        {% endif %}
+        <div class="grid-item">
+            {% if path_list!=['start'] %}
+            <p><a href="{{ url_for('ftp_connection', host=host, username=username, password=password, path='+'.join(path_list[:-1])) }}"><img src="https://cdn.icon-icons.com/icons2/72/PNG/256/back_arrow_14429.png" alt="загрузить на сервер" width="30" height="30"></a></p>
+            <p>Назад</p>
+            {% else %}
+            <p><a href="{{ url_for('ftp_connection', host=host, username=username, password=password, path='start') }}"><img src="https://cdn.icon-icons.com/icons2/2348/PNG/512/refresh_update_icon_142975.png" alt="загрузить на сервер" width="30" height="30"></a></p>
+            <p>Обновить Содержимое</p>
+            {% endif %}
+            
+        </div>
+        <div class="grid-item">
+            <p><a href="{{ url_for('upload_files', host=host, username=username, password=password, path='+'.join(path_list)) }}"><img src="https://cdn.icon-icons.com/icons2/1369/PNG/512/-file-upload_90320.png" alt="загрузить на сервер" width="30" height="30"></a></p>
+            <p>Загрузить файл на сервер</p>
+        </div>
+        <div class="grid-item">
+            <p><a href="{{ url_for('make_catalog', host=host, username=username, password=password, path='+'.join(path_list)) }}"><img src="https://cdn.icon-icons.com/icons2/1863/PNG/512/create-new-folder_119255.png" alt="создать каталог" width="30" height="30"></a></p>
+            <p>Создать каталог</p>
+        </div>
+        {% for item in directories %}
+            <div class="grid-item">
+                <a href="{{ url_for('ftp_connection', host=host, username=username, password=password, path='+'.join(path_list + [item])) }}"><img src="http://s1.iconbird.com/ico/2013/9/450/w256h2561380453900FolderClosed256x25632.png" alt="Перейти" width="30" height="30"></a>
+                <p>{{ item }}</p>
+            </div>
+        {% endfor %}
+        {% for i in files %}
+            <div class="grid-item">
+                <a href="{{ url_for('download', host=host, username=username, password=password, path='+'.join(path_list), target_file=i) }}"><img src="https://cdn.icon-icons.com/icons2/1129/PNG/512/fileinterfacesymboloftextpapersheet_79740.png" alt="Перейти" width="30" height="30"></a>
+                <p>{{ i }}</p>
+            </div>
+        {% endfor %}
+        
+        
+    </div>
+    
+</body>
+</html>
