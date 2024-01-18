@@ -86,7 +86,7 @@ def download(host, username, password, path, target_file):
     else:
         path_list = path.split('+')
         ftp.cwd('/' + '/'.join(path_list[1:]))
-    local_filename = f'D:/suai/semestre7/cloud_technologies/lr2/litvinov_ftp/{target_file}'
+    local_filename = f'D:/cloud_technologies/{target_file}'
     with open(local_filename, 'wb') as file:
         ftp.retrbinary('RETR ' + target_file, file.write)
     ftp.quit()
